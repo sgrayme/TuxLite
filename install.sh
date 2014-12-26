@@ -39,5 +39,4 @@ sleep 5
 
 echo ""
 echo "Installation complete!"
-echo "Root login disabled."
 echo "Please add a normal user now using the \"adduser\" command."
