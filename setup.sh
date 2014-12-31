@@ -176,7 +176,7 @@ function install_webserver {
 
     # From options.conf, nginx = 1, apache = 2
     if [ $WEBSERVER = 1 ]; then
-        aptitude -y install nginx
+        aptitude -y install nginx-common nginx-extras
 
         if  [ $USE_NGINX_ORG_REPO = "yes" ]; then
             mkdir /etc/nginx/sites-available
