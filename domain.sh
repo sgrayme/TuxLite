@@ -220,7 +220,7 @@ server {
         listen 443 ssl;
         server_name www.$DOMAIN;
         
-        return 301 $scheme://$DOMAIN$request_uri;
+        return 301 \$scheme://$DOMAIN$request_uri;
 }
 EOF
     else # Use Apache vHost config
