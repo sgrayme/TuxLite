@@ -281,12 +281,6 @@ function optimize_stack {
     if [ $WEBSERVER = 1 ]; then
         cat ./config/nginx.conf > /etc/nginx/nginx.conf
 
-        # Change nginx user from  "www-data" to "nginx". Not really necessary
-        # because "www-data" user is created when installing PHP5-FPM
-        if  [ $USE_NGINX_ORG_REPO = "yes" ]; then
-            sed -i 's/^user\s*www-data/user nginx/' /etc/nginx/nginx.conf
-        fi
-
         # Change logrotate for nginx log files to keep 10 days worth of logs
         nginx_file=`find /etc/logrotate.d/ -maxdepth 1 -name "nginx*"`
         sed -i 's/\trotate .*/\trotate 10/' $nginx_file
