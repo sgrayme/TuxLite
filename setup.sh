@@ -207,6 +207,55 @@ function install_webserver {
 
         # Change default vhost root directory to /usr/share/nginx/html;
         sed -i 's/\(root \/usr\/share\/nginx\/\).*/\1html;/' /etc/nginx/sites-available/default
+
+        # Create a "common" config include
+        cat > /etc/nginx/common.conf <<EOF
+# Deny access to hidden files
+location ~ (^|/)\. {
+    deny all;
+}
+
+# Enable browser cache for CSS / JS
+location ~* \.(?:css|js)$ {
+    expires 14d;
+    add_header Pragma "public";
+    add_header Cache-Control "public";
+    add_header Vary "Accept-Encoding";
+}
+
+# Enable browser cache for static files
+location ~* \.(?:ico|jpg|jpeg|gif|png|bmp|webp|tiff|svg|svgz|pdf|mp3|flac|ogg|mid|midi|wav|mp4|webm|mkv|ogv|wmv|eot|otf|woff|ttf|rss|atom|zip|7z|tgz|gz|rar|bz2|tar|exe|doc|docx|xls|xlsx|ppt|pptx|rtf|odt|ods|odp)$ {
+    expires 14d;
+    add_header Pragma "public";
+    add_header Cache-Control "public";
+}
+
+# Share marks of freshness
+if_modified_since exact;
+EOF
+
+        # Create a config include for Cloudflare
+        cat > /etc/nginx/cloudflare.conf <<EOF
+set_real_ip_from   199.27.128.0/21;
+set_real_ip_from   173.245.48.0/20;
+set_real_ip_from   103.21.244.0/22;
+set_real_ip_from   103.22.200.0/22;
+set_real_ip_from   103.31.4.0/22;
+set_real_ip_from   141.101.64.0/18;
+set_real_ip_from   108.162.192.0/18;
+set_real_ip_from   190.93.240.0/20;
+set_real_ip_from   188.114.96.0/20;
+set_real_ip_from   197.234.240.0/22;
+set_real_ip_from   198.41.128.0/17;
+set_real_ip_from   162.158.0.0/15;
+set_real_ip_from   104.16.0.0/12;
+set_real_ip_from   2400:cb00::/32;
+set_real_ip_from   2606:4700::/32;
+set_real_ip_from   2803:f800::/32;
+set_real_ip_from   2405:b500::/32;
+set_real_ip_from   2405:8100::/32;
+real_ip_header     CF-Connecting-IP;
+EOF
     else
         aptitude -y install libapache2-mod-fastcgi apache2-mpm-event
 

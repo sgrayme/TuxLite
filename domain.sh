@@ -174,29 +174,8 @@ server {
             fastcgi_param SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;
         }
 
-        # Enable browser cache for CSS / JS
-        location ~* \.(?:css|js)$ {
-            expires 30d;
-            add_header Pragma "public";
-            add_header Cache-Control "public";
-            add_header Vary "Accept-Encoding";
-        }
-
-        # Enable browser cache for static files
-        location ~* \.(?:ico|jpg|jpeg|gif|png|bmp|webp|tiff|svg|svgz|pdf|mp3|flac|ogg|mid|midi|wav|mp4|webm|mkv|ogv|wmv|eot|otf|woff|ttf|rss|atom|zip|7z|tgz|gz|rar|bz2|tar|exe|doc|docx|xls|xlsx|ppt|pptx|rtf|odt|ods|odp)$ {
-            expires 60d;
-            add_header Pragma "public";
-            add_header Cache-Control "public";
-        }
-
-        # Deny access to hidden files
-        location ~ (^|/)\. {
-            deny all;
-        }
-
-        # Prevent logging of favicon and robot request errors
-        location = /favicon.ico { log_not_found off; access_log off; }
-        location = /robots.txt  { log_not_found off; access_log off; }
+        include /etc/nginx/global.conf;
+        include /etc/nginx/cloudflare.conf;
 }
 
 
@@ -232,29 +211,8 @@ server {
             fastcgi_param SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;
         }
 
-        # Enable browser cache for CSS / JS
-        location ~* \.(?:css|js)$ {
-            expires 30d;
-            add_header Pragma "public";
-            add_header Cache-Control "public";
-            add_header Vary "Accept-Encoding";
-        }
-
-        # Enable browser cache for static files
-        location ~* \.(?:ico|jpg|jpeg|gif|png|bmp|webp|tiff|svg|svgz|pdf|mp3|flac|ogg|mid|midi|wav|mp4|webm|mkv|ogv|wmv|eot|otf|woff|ttf|rss|atom|zip|7z|tgz|gz|rar|bz2|tar|exe|doc|docx|xls|xlsx|ppt|pptx|rtf|odt|ods|odp)$ {
-            expires 60d;
-            add_header Pragma "public";
-            add_header Cache-Control "public";
-        }
-
-        # Deny access to hidden files
-        location ~ (^|/)\. {
-            deny all;
-        }
-
-        # Prevent logging of favicon and robot request errors
-        location = /favicon.ico { log_not_found off; access_log off; }
-        location = /robots.txt  { log_not_found off; access_log off; }
+        include /etc/nginx/global.conf;
+        include /etc/nginx/cloudflare.conf;
 }
 EOF
     else # Use Apache vHost config
