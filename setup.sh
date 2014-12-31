@@ -117,6 +117,19 @@ EOF
         cat dotdeb.gpg | apt-key add -
     fi # End if DISTRO = Debian && RELEASE = squeeze
 
+    # Add Dotdeb repo for installing more recent PHP5-FPM with Debian 7 (wheezy)
+    if  [ $DISTRO = "Debian" ] && [ $RELEASE = "wheezy" ]; then
+        echo -e "\033[35;1mEnabling DotDeb repo for Debian 7 Wheezy. \033[0m"
+        cat > /etc/apt/sources.list.d/dotdeb.list <<EOF
+# Dotdeb
+deb http://packages.dotdeb.org wheezy-php56 all
+deb-src http://packages.dotdeb.org wheezy-php56 all
+
+EOF
+        wget http://www.dotdeb.org/dotdeb.gpg
+        cat dotdeb.gpg | apt-key add -
+    fi # End if DISTRO = Debian && RELEASE = wheezy
+
 
     # If user wants to install nginx from official repo and webserver=nginx
     if  [ $USE_NGINX_ORG_REPO = "yes" ] && [ $WEBSERVER = 1 ]; then
