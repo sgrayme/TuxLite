@@ -153,7 +153,7 @@ server {
         listen 80;
         #listen [::]:80 default ipv6only=on;
 
-        server_name www.$DOMAIN $DOMAIN;
+        server_name $DOMAIN;
         root $DOMAIN_PATH/public_html;
         access_log $DOMAIN_PATH/logs/access.log;
         error_log $DOMAIN_PATH/logs/error.log;
@@ -181,7 +181,7 @@ server {
 
 server {
         listen 443;
-        server_name www.$DOMAIN $DOMAIN;
+        server_name $DOMAIN;
         root $DOMAIN_PATH/public_html;
         access_log $DOMAIN_PATH/logs/access.log;
         error_log $DOMAIN_PATH/logs/error.log;
@@ -213,6 +213,14 @@ server {
 
         include /etc/nginx/common.conf;
         include /etc/nginx/cloudflare.conf;
+}
+
+server {
+        listen 80;
+        listen 443 ssl;
+        server_name www.$DOMAIN;
+        
+        return 301 $scheme://$DOMAIN$request_uri;
 }
 EOF
     else # Use Apache vHost config
