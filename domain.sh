@@ -174,7 +174,7 @@ server {
             fastcgi_param SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;
         }
 
-        include /etc/nginx/global.conf;
+        include /etc/nginx/common.conf;
         include /etc/nginx/cloudflare.conf;
 }
 
@@ -211,7 +211,7 @@ server {
             fastcgi_param SCRIPT_FILENAME  \$document_root\$fastcgi_script_name;
         }
 
-        include /etc/nginx/global.conf;
+        include /etc/nginx/common.conf;
         include /etc/nginx/cloudflare.conf;
 }
 EOF
